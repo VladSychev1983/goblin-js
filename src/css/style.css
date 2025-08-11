@@ -1,3 +1,38 @@
-body {
-    color: #999;
+.result-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center; /* Allows items to wrap onto new lines */
+  justify-content: center;
+  width: 400px; /* Example width for the container */
+  margin: 0 auto;
+}
+.result-item {
+  flex: 1 0 45%; /* Allows items to grow, not shrink, and sets a base width */
+  margin: 5px; /* Adds spacing between items */
+  background-color: lightblue;
+  padding: 5px;
+  text-align: center;
+}
+
+.game-container {
+    display: grid; /* Enables CSS Grid layout */
+    grid-template-columns: repeat(4, 1fr); /* Creates 4 columns of equal width */
+    grid-template-rows: repeat(4, 1fr); /* Creates 4 rows of equal height */
+    gap: 10px; /* Adds spacing between grid items */
+    width: 400px; /* Example fixed width for the container */
+    height: 400px; /* Example fixed height for the container to maintain square aspect */
+    border: 1px solid #ccc; /* Optional: adds a border to the grid container */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.game-item {
+    background-color: lightgray; /* Sets the background color of each square */
+    border: 1px solid #999; /* Optional: adds a border to each square */
+    display: flex; /* Centers content if any is added later */
+    justify-content: center;
+    align-items: center;
 }
