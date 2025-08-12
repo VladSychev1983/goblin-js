@@ -1,19 +1,19 @@
 export default class Game {
   constructor(dom) {
-    this.GameContainer = dom.querySelector(".game-container");
-    this.KilledCounter = dom.querySelector(".killed-counter");
-    this.MissedCounter = dom.querySelector(".missed-counter");
-    this.CurrentPosition = null;
-    this.GameContainerSize = this.GameContainer.children.length;
+    this.gameContainer = dom.querySelector(".game-container");
+    this.killedCounter = dom.querySelector(".killed-counter");
+    this.missedCounter = dom.querySelector(".missed-counter");
+    this.currentPosition = null;
+    this.gameContainerSize = this.gameContainer.children.length;
     this.killed = 0;
     this.missed = 0;
   }
   start() {
-    this.KilledCounter.textContent = 0;
-    this.MissedCounter.textContent = 0;
+    this.killedCounter.textContent = 0;
+    this.missedCounter.textContent = 0;
     let timerInt = setInterval(() => {
       let pos = this.PositionGenerator();
-      let gameItem = this.GameContainer.children[pos];
+      let gameItem = this.gameContainer.children[pos];
       gameItem.classList.add("goblin");
       console.log("current pos:" + pos);
       gameItem.addEventListener("click", () => {
@@ -36,22 +36,22 @@ export default class Game {
           clearInterval(timerInt);
         }
         console.log("killed-", this.killed);
-        console.log("killedTextContent-", this.KilledCounter.textContent);
-        if (this.killed == this.KilledCounter.textContent) {
+        console.log("killedTextContent-", this.killedCounter.textContent);
+        if (this.killed == this.killedCounter.textContent) {
           this.missed++;
-          this.MissedCounter.textContent = this.missed;
+          this.missedCounter.textContent = this.missed;
         }
-        this.KilledCounter.textContent = this.killed;
+        this.killedCounter.textContent = this.killed;
       }, 700);
     }, 3000);
   }
 
   PositionGenerator() {
-    let pos = Math.floor(Math.random() * this.GameContainerSize);
-    while (pos === this.CurrentPosition) {
-      pos = Math.floor(Math.random() * this.GameContainerSize);
+    let pos = Math.floor(Math.random() * this.gameContainerSize);
+    while (pos === this.currentPosition) {
+      pos = Math.floor(Math.random() * this.gameContainerSize);
     }
-    this.CurrentPosition = pos;
+    this.currentPosition = pos;
     return pos;
   }
 }
