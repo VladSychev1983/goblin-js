@@ -1,4 +1,5 @@
 import Game from "./game";
+
 console.log("app.js included");
 
 //creating div inside game container.
