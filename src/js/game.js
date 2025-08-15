@@ -71,7 +71,6 @@ export default class Game {
         "click",
         () => {
           if (!element.classList.contains("goblin")) {
-            console.log(`${index} empty element clicked!`);
             this.missed++;
           }
           if (
