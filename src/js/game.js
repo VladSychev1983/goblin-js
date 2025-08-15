@@ -8,49 +8,42 @@ export default class Game {
     this.gameContainerSize = this.gameContainer.children.length;
     this.killed = 0;
     this.missed = 0;
-    this.maxMissedValue = 4;
-    this.maxKilledValue = 9;
-  }
-  start() {
+    this.maxMissedValue = 5;
+    this.maxKilledValue = 5;
     this.killedCounter.textContent = 0;
     this.missedCounter.textContent = 0;
-    //кликаем на пустой ячейке.
-    this.checkClickEmptyPosition();
-
-    let timerInt = setInterval(() => {
+  }
+  start() {
+    const timerInt = setInterval(() => {
       let pos = this.PositionGenerator();
       let gameItem = this.gameContainer.children[pos];
       //показываем курсор молоток
       const hammer = new Hammer(gameItem);
       hammer.showHammer();
-
       gameItem.classList.add("goblin");
-      gameItem.addEventListener("click", () => {
-        //увеличиваем счетчик если при клике есть класс гоблин
-        if (gameItem.classList.contains("goblin")) {
-          this.killed++;
-        } else {
-          this.missed++;
-        }
-      });
-      setTimeout(() => {
+      const timerTm = setTimeout(() => {
         gameItem.classList.remove("goblin");
-        if (this.killed >= this.maxKilledValue) {
-          alert("Победа!");
-          clearInterval(timerInt);
-        }
-        if (this.missed >= this.maxMissedValue) {
-          alert("Вы проиграли!");
-          clearInterval(timerInt);
-        }
-
-        if (this.killed == this.killedCounter.textContent) {
+        this.missed++;
+        this.missedCounter.textContent = this.missed;
+      }, 999);
+      this.checkResult(timerInt, timerTm);
+    }, 1000);
+    //навешиваем событие на клик.
+    const array = Array.from(this.gameContainer.children);
+    array.forEach((element, index) => {
+      element.addEventListener("click", () => {
+        if (!element.classList.contains("goblin")) {
+          element.classList.remove("goblin");
           this.missed++;
           this.missedCounter.textContent = this.missed;
+        } else {
+          element.classList.remove("goblin");
+          this.killed++;
+          this.missed--;
+          this.killedCounter.textContent = this.killed;
         }
-        this.killedCounter.textContent = this.killed;
-      }, 700);
-    }, 1000);
+      });
+    });
   }
 
   PositionGenerator() {
@@ -62,27 +55,18 @@ export default class Game {
     return pos;
   }
 
-  checkClickEmptyPosition() {
-    const controller = new AbortController();
-    const { signal } = controller;
-    const array = Array.from(this.gameContainer.children);
-    array.forEach((element, index) => {
-      element.addEventListener(
-        "click",
-        () => {
-          if (!element.classList.contains("goblin")) {
-            this.missed++;
-          }
-          if (
-            this.missed >= this.maxMissedValue ||
-            this.killed >= this.maxKilledValue
-          ) {
-            controller.abort();
-            console.log("The game is finished!");
-          }
-        },
-        { signal },
-      );
-    });
+  checkResult(timerInt, timerTm) {
+    if (this.killed >= this.maxKilledValue) {
+      alert("Победа!");
+      clearInterval(timerInt);
+      clearTimeout(timerTm);
+      return;
+    }
+    if (this.missed >= this.maxMissedValue) {
+      alert("Вы проиграли!");
+      clearInterval(timerInt);
+      clearTimeout(timerTm);
+      return;
+    }
   }
 }
