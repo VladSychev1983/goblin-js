@@ -1,6 +1,8 @@
 ![CI](https://github.com/VladSychev1983/goblin-js/actions/workflows/web.yml/badge.svg)
 
-# Webpack5
+#Игра "Убей гоблина".
+[Ссылка на Игру ](https://vladsychev1983.github.io/goblin-js/)
 
+# Webpack5
 [Руководство по настройке Webpack](https://webpack.js.org/guides/)
 [Руководство по настройке GitHub Actions](https://docs.github.com/en/actions/quickstart)

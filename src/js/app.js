@@ -8,7 +8,7 @@ const numberOfDivs = 16;
 for (let i = 0; i < numberOfDivs; i++) {
   const newDiv = document.createElement("div");
   newDiv.classList.add("game-item");
-  container.appendChild(newDiv);
+  container.append(newDiv);
 }
 
 const game = document.querySelector(".game");

@@ -14,10 +14,13 @@ export default class Game {
   start() {
     this.killedCounter.textContent = 0;
     this.missedCounter.textContent = 0;
+    //кликаем на пустой ячейке.
+    this.checkClickEmptyPosition();
+
     let timerInt = setInterval(() => {
       let pos = this.PositionGenerator();
       let gameItem = this.gameContainer.children[pos];
-      //show hammer on mouseenter
+      //показываем курсор молоток
       const hammer = new Hammer(gameItem);
       hammer.showHammer();
 
@@ -26,10 +29,11 @@ export default class Game {
         //увеличиваем счетчик если при клике есть класс гоблин
         if (gameItem.classList.contains("goblin")) {
           this.killed++;
+        } else {
+          this.missed++;
         }
       });
-      const timerId = setTimeout(() => {
-        //console.log("Прошлa 1 секунда");
+      setTimeout(() => {
         gameItem.classList.remove("goblin");
         if (this.killed >= this.maxKilledValue) {
           alert("Победа!");
@@ -56,5 +60,30 @@ export default class Game {
     }
     this.currentPosition = pos;
     return pos;
+  }
+
+  checkClickEmptyPosition() {
+    const controller = new AbortController();
+    const { signal } = controller;
+    const array = Array.from(this.gameContainer.children);
+    array.forEach((element, index) => {
+      element.addEventListener(
+        "click",
+        () => {
+          if (!element.classList.contains("goblin")) {
+            console.log(`${index} empty element clicked!`);
+            this.missed++;
+          }
+          if (
+            this.missed >= this.maxMissedValue ||
+            this.killed >= this.maxKilledValue
+          ) {
+            controller.abort();
+            console.log("The game is finished!");
+          }
+        },
+        { signal },
+      );
+    });
   }
 }
